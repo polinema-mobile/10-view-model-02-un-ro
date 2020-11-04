@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="id.putraprima.mvvmlogin.fragments.SplashFragment"
+        android:name="com.unero.login.fragments.splashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="id.putraprima.mvvmlogin.fragments.LoginFragment"
+        android:name="com.unero.login.fragments.loginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="id.putraprima.mvvmlogin.fragments.HomeFragment"
+        android:name="com.unero.login.fragments.homeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 </navigation>
