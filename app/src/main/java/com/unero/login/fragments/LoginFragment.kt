@@ -16,30 +16,42 @@ import com.unero.login.databinding.FragmentLoginBinding
 import com.unero.login.models.Account
 import com.unero.login.viewmodels.LoginFragmentViewModel
 import com.unero.login.viewmodels.LoginFragmentViewModelFactory
+import es.dmoral.toasty.Toasty
 
 class LoginFragment : Fragment() {
+
+    private var sendThis: String = ""
+    private lateinit var binding: FragmentLoginBinding
+    private lateinit var mViewModels: LoginFragmentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentLoginBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
-        val mViewModels: LoginFragmentViewModel = ViewModelProvider(this).get(LoginFragmentViewModel::class.java)
-
-        mViewModels.loggedLiveData.observe(viewLifecycleOwner, {
-            if(it){
-                mViewModels.accountLiveData.observe(viewLifecycleOwner, { account ->
-                    val bundle = bundleOf("data" to account)
-                    println(account.email)
-                    println(account.password)
-                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment, bundle)
-                })
-            } else {
-                Toast.makeText( activity, "Check your email and Password", Toast.LENGTH_SHORT).show()
-            }
-        })
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+        mViewModels = ViewModelProvider(this).get(LoginFragmentViewModel::class.java)
         binding.viewModel = mViewModels
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        mViewModels.accountLiveData.observe(viewLifecycleOwner, {
+            sendThis = it.email
+        })
+
+        mViewModels.loggedLiveData.observe(viewLifecycleOwner, {
+            if (it) {
+                context?.let { it1 -> Toasty.success(it1, "Login Success", Toast.LENGTH_SHORT, true).show() }
+                val bundle = bundleOf("email" to sendThis)
+                findNavController().navigate(R.id.action_loginFragment_to_homeFragment, bundle)
+            }
+        })
+
+        mViewModels.errorLD.observe(viewLifecycleOwner, {
+            context?.let { it1 -> Toasty.error(it1, it, Toast.LENGTH_SHORT, true ).show() }
+        })
     }
 }

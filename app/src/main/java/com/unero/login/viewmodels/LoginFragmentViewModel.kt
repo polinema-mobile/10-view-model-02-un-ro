@@ -11,16 +11,17 @@ import com.unero.login.models.Account
 class LoginFragmentViewModel: ViewModel() {
     private var accountMutableLiveData = MutableLiveData<Account>()
     private var isLogged = MutableLiveData<Boolean>()
-
-    // Object baru menggantikan object di Fragment
+    private var errorMLD = MutableLiveData<String>()
     var account = Account()
+
     val loggedLiveData: LiveData<Boolean>
         get() = isLogged
 
-
-    // Ini seharusnya di Home View Model
     val accountLiveData: LiveData<Account>
         get() = accountMutableLiveData
+
+    val errorLD: LiveData<String>
+        get() = errorMLD
 
     init {
         isLogged.value = false
@@ -31,15 +32,16 @@ class LoginFragmentViewModel: ViewModel() {
 
     fun login(){
         if (account.email == email  && account.password == pass){
-            // Ke Fragment Home
             accountMutableLiveData.value = account // Set ke LiveData
             isLogged.value = true
+        } else if (account.email.isBlank() && account.password.isBlank()) {
+            errorMLD.value = "Please input email and password first"
         } else if (account.email != email){
-            // Salah email akan Toast
-            // Toast.makeText(LoginFragment::class.java, "Email Salah!", Toast.LENGTH_SHORT)
+            isLogged.value = false
+            errorMLD.value = "Email not found"
         } else if (account.password != pass){
-            // Salah password akan Toast
-            // Toast.makeText(this, "Password Salah!", Toast.LENGTH_SHORT)
+            isLogged.value = false
+            errorMLD.value = "Wrong Password"
         }
     }
 }

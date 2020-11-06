@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="user"
-            type="com.unero.login.models.Account" />
+            name="email"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,23 +15,26 @@
         tools:context=".fragments.HomeFragment">
 
         <TextView
-            android:id="@+id/emailUser"
-            android:layout_width="match_parent"
+            android:id="@+id/hi"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{user.email}"
+            android:text="@string/selamat_datang"
+            app:layout_constraintBottom_toTopOf="@id/emailUser"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="32dp"
+            android:textSize="24sp"
+            />
+
+        <TextView
+            android:id="@+id/emailUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="@{email}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <TextView
-            android:id="@+id/passwordUser"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{user.password}"
-            app:layout_constraintTop_toBottomOf="@id/emailUser"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
